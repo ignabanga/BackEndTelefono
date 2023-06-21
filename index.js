@@ -65,37 +65,41 @@ app.get('/api/info', (req, res) => {
 
 })
 
-app.post('/api/persons', morgan(':date[web] - Request: :body'),(req, res) => {
+app.post('/api/persons', (req, res) => { 
 
-    const generarId = () => {
-        let id = Math.round(Math.random(1) * 10000)
-        return id
-    }
+  try {
 
-    const numberId = generarId()
-    const person = req.body
-    person.id = numberId
+    const generarId = () => { 
+      let id = Math.round(Math.random(1) * 10000) 
+      return id 
+    } 
 
-    const nameV = person.name
-    const personD = persons.filter(person => person.name == nameV)
+    
+    const numberId = generarId() 
+    const person = req.body 
+    person.id = numberId 
+    const nameV = person.name 
+    const personD = persons.filter(person => person.name == nameV) 
 
-    if (!person.name.trim() || !person.number.trim()) {
-        console.log('Falta nombre o numero')
-        return res.status(400).json({ 
-            error: 'Falta nombre o numero' 
-          })
 
-    } else if (personD.length > 0 ) {
-        console.log('Este nombre ya existe')
-        return res.status(400).json({ 
-            error: 'Este nombre ya existe' 
-          })
-    } else {
-        persons = persons.concat(person)
-        res.json(person)
-        console.log('Persona registrada con exito')
-    }
+    if (!person.name.trim() || !person.number.trim()) { 
+      console.log('Falta nombre o numero') 
+      return res.status(400).json({ error: 'Falta nombre o numero' }) 
+    } else if (personD.length > 0 ) { 
+      console.log('Este nombre ya existe') 
+      return res.status(400).json({ error: 'Este nombre ya existe' }) 
+    } else { 
+      persons = persons.concat(person) 
+      res.json(person) 
+      console.log('Persona registrada con exito') 
+    } 
 
+  } catch (err) {
+
+    console.error(err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+
+  }
 })
 
 
