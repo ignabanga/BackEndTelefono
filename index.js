@@ -74,10 +74,13 @@ app.post('/api/persons', (req, res) => {
       return id 
     } 
 
-    
+
     const numberId = generarId() 
-    const person = req.body 
-    person.id = numberId 
+    const person = {
+        id: numberId,
+        name: body.name,
+        number: body.number
+    }
     const nameV = person.name 
     const personD = persons.filter(person => person.name == nameV) 
 
