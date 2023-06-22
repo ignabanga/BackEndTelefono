@@ -21,7 +21,11 @@ let persons = [
         id: 3,
         name: 'Arto Hellias',
         number: '02227665544'
-    },
+    },{
+      id: 4,
+      name: 'Claudio',
+      number: '0225215544'
+  }
 
 ]
 
