@@ -4,7 +4,7 @@ const cors = require('cors')
 const app = express()
 
 app.use(cors())
-app.use(express.json)
+app.use(express.json())
 app.use(express.static('build'))
 
 
@@ -79,8 +79,8 @@ app.post('/api/persons', (req, res) => {
     const numberId = generarId() 
     const person = {
         id: numberId,
-        name: body.name,
-        number: body.number
+        name: req.body.name,
+        number: req.body.number
     }
     const nameV = person.name 
     const personD = persons.filter(person => person.name == nameV) 
