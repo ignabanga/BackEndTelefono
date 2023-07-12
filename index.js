@@ -98,8 +98,8 @@ app.get('/api/persons/:id', (request, res) => {
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
-  if (body.content === undefined) {
-    return response.status(400).json({ error: 'content missing' })
+  if (body.name === undefined || body.number === undefined) {
+    return response.status(400).json({ error: 'name o number undefined' })
   }
 
   const person = new Person({
