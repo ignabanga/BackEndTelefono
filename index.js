@@ -55,6 +55,7 @@ app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
     response.json(persons)
   })
+  mongoose.connection.close()
 })
 
 app.get('/api/persons/:id', (request, res) => {
@@ -110,15 +111,16 @@ app.post('/api/persons', (request, response) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
+  mongoose.connection.close()
 })
 
 
-app.delete('/api/persons/:id', (req, res) => {
+/*app.delete('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     persons = persons.filter(person => person.id !== id)
 
     res.status(204).end()
-})
+})*/
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
