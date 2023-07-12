@@ -1,13 +1,15 @@
 const express = require('express')
-const morgan = require('morgan')
 const cors = require('cors')
 const app = express()
+require('dotenv').config()
+
+const Person = require('./models/person')
 
 app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
 
-
+/*
 let persons = [
     {
         id: 1,
@@ -27,7 +29,7 @@ let persons = [
       number: '0225215544'
   }
 
-]
+]*/
 
 function obtenerFechaYHoraActual() {
     const fechaHoraActual = new Date();
@@ -42,27 +44,20 @@ let totalPeople = persons.length;
 let hora = obtenerFechaYHoraActual();
 
 
-morgan.token('body', (req) => {
-    return JSON.stringify(req.body);
-  });
-
   app.get('/', (req, res) => {
     res.send('<h1>Inicio de pag</h1>')
 })
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+  Person.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(person => person.id === id)
-
-    if (person) {
-        res.json(person)
-    } else {
-        res.status(404).end()
-    }
+  Person.findById(request.params.id).then(person => {
+    res.json(person)
+  })
 })
 
 app.get('/api/info', (req, res) => {
@@ -70,16 +65,12 @@ app.get('/api/info', (req, res) => {
 
 })
 
-app.post('/api/persons', (req, res) => { 
-
+/*app.post('/api/persons', (req, res) => { 
   try {
-
     const generarId = () => { 
       let id = Math.round(Math.random(1) * 10000) 
       return id 
     } 
-
-
     const numberId = generarId() 
     const person = {
         id: numberId,
@@ -88,7 +79,6 @@ app.post('/api/persons', (req, res) => {
     }
     const nameV = person.name 
     const personD = persons.filter(person => person.name == nameV) 
-
 
     if (!person.name.trim() || !person.number.trim()) { 
       console.log('Falta nombre o numero') 
@@ -101,13 +91,26 @@ app.post('/api/persons', (req, res) => {
       res.json(person) 
       console.log('Persona registrada con exito') 
     } 
-
   } catch (err) {
-
     console.error(err);
     res.status(500).json({ error: 'Error interno del servidor' });
-
   }
+})*/
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  if (body.content === undefined) {
+    return response.status(400).json({ error: 'content missing' })
+  }
+
+  const person = new Person({
+    name: body.name,
+    number: body.number
+  })
+
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 })
 
 
@@ -118,7 +121,7 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(204).end()
 })
 
-const PORT = 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })
