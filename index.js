@@ -29,7 +29,7 @@ let persons = [
       number: '0225215544'
   }
 
-]*/
+]
 
 function obtenerFechaYHoraActual() {
     const fechaHoraActual = new Date();
@@ -39,10 +39,12 @@ function obtenerFechaYHoraActual() {
 
     return `Fecha: ${fecha}, Hora: ${hora}`;
 }
-
 let totalPeople = persons.length;
 let hora = obtenerFechaYHoraActual();
-
+app.get('/api/info', (req, res) => {
+    res.send(`Hay informacion sobre: ${totalPeople} personas, ${hora}`)
+})
+*/
 
   app.get('/', (req, res) => {
     res.send('<h1>Inicio de pag</h1>')
@@ -60,10 +62,6 @@ app.get('/api/persons/:id', (req, res) => {
   })
 })
 
-app.get('/api/info', (req, res) => {
-    res.send(`Hay informacion sobre: ${totalPeople} personas, ${hora}`)
-
-})
 
 /*app.post('/api/persons', (req, res) => { 
   try {
