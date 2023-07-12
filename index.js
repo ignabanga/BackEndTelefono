@@ -50,13 +50,13 @@ app.get('/api/info', (req, res) => {
     res.send('<h1>Inicio de pag</h1>')
 })
 
-app.get('/api/persons', (req, res) => {
-  Person.find({}).then(notes => {
-    response.json(notes)
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(persons => {
+    response.json(persons)
   })
 })
 
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (request, res) => {
   Person.findById(request.params.id).then(person => {
     res.json(person)
   })
