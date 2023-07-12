@@ -55,7 +55,6 @@ app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
     response.json(persons)
   })
-  mongoose.connection.close()
 })
 
 app.get('/api/persons/:id', (request, res) => {
@@ -111,7 +110,6 @@ app.post('/api/persons', (request, response) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  mongoose.connection.close()
 })
 
 
